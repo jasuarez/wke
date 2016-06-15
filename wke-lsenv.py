@@ -10,5 +10,5 @@ containers = cli.containers(all=True, filters={"name": WKE_PREFIX + "-"})
 
 for c in containers:
     names = c['Names']
-    print(names[0][5:])
+    print(names[0][len(WKE_PREFIX) + 2:])
 

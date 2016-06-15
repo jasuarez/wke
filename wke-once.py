@@ -18,7 +18,7 @@ containers = cli.containers(all=True, filters={"name": fullenv})
 
 if len(containers) > 0:
     image = containers[0]['Image']
-    hostname = image[4:] + "/" + timestamp
+    hostname = image[len(WKE_PREFIX):] + "/" + timestamp
     clone = cli.commit(container=fullenv, repository=image, tag=timestamp);
     call(["docker", "run", "-t", "-i", "--rm", "-h", hostname, clone['Id']])
     cli.remove_image(clone['Id'])
