@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+local_src = os.path.dirname(__file__) + '/src'
+if os.path.exists(local_src):
+    sys.path = [local_src] + sys.path
+
+from wke.wke import Wke
+
+if __name__ == '__main__':
+    wke = Wke()
+    wke.run()
