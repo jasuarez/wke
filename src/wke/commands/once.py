@@ -2,6 +2,8 @@ import calendar
 import time
 from subprocess import call
 
+SUMMARY = "runs a temporal working environment and discard changes"
+
 class Command(object):
     def __init__(self, docker_client, config):
         self.docker_client = docker_client

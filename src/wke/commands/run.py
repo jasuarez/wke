@@ -1,5 +1,6 @@
 from subprocess import call
 
+SUMMARY = "starts a working environment"
 class Command(object):
     def __init__(self, docker_client, config):
         self.docker_client = docker_client

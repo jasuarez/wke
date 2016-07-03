@@ -1,3 +1,5 @@
+SUMMARY = "list available images"
+
 class Command(object):
     def __init__(self, docker_client, config):
         self.docker_client = docker_client
@@ -5,6 +7,9 @@ class Command(object):
 
     def expected_params(self):
         return 0
+
+    def summary(self):
+        return "list available images"
 
     def usage(self):
         return ""
