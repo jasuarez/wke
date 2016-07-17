@@ -12,6 +12,10 @@ class Config(object):
             self._prefix = self._config.get('global', 'wke')
         else:
             self._prefix = "wke"
+        if self._config.has_option('global', 'privileged'):
+            self._privileged = self._config.getboolean('global', 'privileged')
+        else:
+            self._privileged = False
 
     def get_canonical_image(self, image):
         return self._prefix + "/" + image
@@ -28,3 +32,6 @@ class Config(object):
         for b in self._config.options('binds'):
             binds.append(b + ":" + self._config.get('binds', b))
         return binds
+
+    def is_privileged(self):
+        return self._privileged

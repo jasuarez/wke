@@ -16,7 +16,7 @@ class Command(object):
         cworkenv = self.config.get_canonical_env(workenv)
         cimage = self.config.get_canonical_image(image)
         binds = self.config.get_mount_points()
-        host_config = self.docker_client.create_host_config(privileged = True,
+        host_config = self.docker_client.create_host_config(privileged = self.config.is_privileged(),
                                                             binds = binds)
         result = self.docker_client.create_container(image = cimage,
                                                      hostname = image,

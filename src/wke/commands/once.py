@@ -33,8 +33,9 @@ class Command(object):
         clone = self.docker_client.commit(container = cworkenv,
                                           repository = image,
                                           tag = timestamp)
-        c = ["docker", "run", "--privileged", "-t", "-i", "--rm",
-              "-h", hostname]
+        c = ["docker", "run", "-t", "-i", "--rm", "-h", hostname]
+        if self.config.is_privileged():
+            c.append("--privileged")
         for bind in self.config.get_mount_points():
             c.append("-v")
             c.append(bind)
@@ -49,11 +50,11 @@ class Command(object):
             tag = i['RepoTags']
             if tag[0] == cimage + ":latest":
                 hostname = image + "/" + timestamp
-                c = ["docker", "run", "--privileged", "-t", "-i", "--rm",
-                      "-h", hostname]
+                c = ["docker", "run", "-t", "-i", "--rm", "-h", hostname]
+                if self.config.is_privileged():
+                    c.append("--privileged")
                 for bind in self.config.get_mount_points():
                     c.append("-v")
                     c.append(bind)
                 c.append(i['Id'])
                 call(c)
-
