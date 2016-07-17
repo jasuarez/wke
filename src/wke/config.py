@@ -4,18 +4,16 @@ import ConfigParser
 
 class Config(object):
     def __init__(self):
+        self._prefix = "wke"
+        self._privileged = False
         self._config = ConfigParser.SafeConfigParser()
         self._config.optionxform = str
         self._config.read([os.path.join(c, "wke", "defaults.conf")
                            for c in xdg_config_dirs])
         if self._config.has_option('global', 'wke'):
             self._prefix = self._config.get('global', 'wke')
-        else:
-            self._prefix = "wke"
         if self._config.has_option('global', 'privileged'):
             self._privileged = self._config.getboolean('global', 'privileged')
-        else:
-            self._privileged = False
 
     def get_canonical_image(self, image):
         return self._prefix + "/" + image
@@ -29,14 +27,19 @@ class Config(object):
 
     def get_mount_points(self):
         binds = []
+        if not self._config.has_section('binds'):
+            return binds
         for b in self._config.options('binds'):
             binds.append(b + ":" + self._config.get('binds', b))
         return binds
 
     def get_env_vars(self):
         envvars = []
+        if not self._config.has_section('envvars'):
+            return envvars
         for e in self._config.options('envvars'):
             envvars.append(e + "=" + self._config.get('envvars', e))
         return envvars
+
     def is_privileged(self):
         return self._privileged
