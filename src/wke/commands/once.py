@@ -33,10 +33,13 @@ class Command(object):
         clone = self.docker_client.commit(container = cworkenv,
                                           repository = image,
                                           tag = timestamp)
-        call(["docker", "run", "--privileged", "-t", "-i", "--rm",
-              "-h", hostname,
-              "-v", self.config.get_mount_points()[0],
-              clone['Id']])
+        c = ["docker", "run", "--privileged", "-t", "-i", "--rm",
+              "-h", hostname]
+        for bind in self.config.get_mount_points():
+            c.append("-v")
+            c.append(bind)
+        c.append(clone['Id'])
+        call(c)
         self.docker_client.remove_image(clone['Id'])
 
     def run_once_image(self, image, timestamp):
@@ -46,8 +49,11 @@ class Command(object):
             tag = i['RepoTags']
             if tag[0] == cimage + ":latest":
                 hostname = image + "/" + timestamp
-                call(["docker", "run", "--privileged", "-t", "-i", "--rm",
-                      "-h", hostname,
-                      "-v", self.config.get_mount_points()[0],
-                      i['Id']])
+                c = ["docker", "run", "--privileged", "-t", "-i", "--rm",
+                      "-h", hostname]
+                for bind in self.config.get_mount_points():
+                    c.append("-v")
+                    c.append(bind)
+                c.append(i['Id'])
+                call(c)
 
