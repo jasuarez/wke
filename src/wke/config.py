@@ -33,5 +33,10 @@ class Config(object):
             binds.append(b + ":" + self._config.get('binds', b))
         return binds
 
+    def get_env_vars(self):
+        envvars = []
+        for e in self._config.options('envvars'):
+            envvars.append(e + "=" + self._config.get('envvars', e))
+        return envvars
     def is_privileged(self):
         return self._privileged

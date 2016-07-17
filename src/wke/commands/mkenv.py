@@ -12,7 +12,9 @@ class Command(object):
         return "<workenv> <image>"
 
     def run(self, workenv, image):
-        envvars = {"DOCKER_NAME": workenv}
+        envvars = ["DOCKER_NAME=" +  workenv]
+        envvars.extend(self.config.get_env_vars())
+        print envvars
         cworkenv = self.config.get_canonical_env(workenv)
         cimage = self.config.get_canonical_image(image)
         binds = self.config.get_mount_points()

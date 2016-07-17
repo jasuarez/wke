@@ -39,6 +39,9 @@ class Command(object):
         for bind in self.config.get_mount_points():
             c.append("-v")
             c.append(bind)
+        for envvar in self.config.get_env_vars():
+            c.append("-e")
+            c.append(envvar)
         c.append(clone['Id'])
         call(c)
         self.docker_client.remove_image(clone['Id'])
@@ -56,5 +59,8 @@ class Command(object):
                 for bind in self.config.get_mount_points():
                     c.append("-v")
                     c.append(bind)
+                for envvar in self.config.get_env_vars():
+                    c.append("-e")
+                    c.append(envvar)
                 c.append(i['Id'])
                 call(c)
