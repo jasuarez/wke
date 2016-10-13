@@ -51,7 +51,7 @@ class Command(object):
         images = self.docker_client.images()
         for i in images:
             tag = i['RepoTags']
-            if tag[0] == cimage + ":latest":
+            if tag and tag[0] == cimage + ":latest":
                 hostname = image + "/" + timestamp
                 c = ["docker", "run", "-t", "-i", "--rm", "-h", hostname]
                 if self.config.is_privileged():
