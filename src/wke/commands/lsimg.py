@@ -20,6 +20,6 @@ class Command(object):
         for i in images:
             prefix = self.config.get_canonical_image("")
             tag = i['RepoTags']
-            if tag[0].startswith(prefix):
+            if tag and tag[0].startswith(prefix):
                 print(tag[0][len(prefix):-len(":latest")])
 
